@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Your Ticket{% endblock %}
+{% block head %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" integrity="sha512-BNaRQnYJYiPSqHHDb58B0yaPfCu+Wgds8Gp/gU33kqBtgNS4tSPHuGibyoVBL5gI9kLmbG4dGxdFTQsPF4+CInA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-qZvrmS2ekKPF2mSznTQsxqPgnpkI4DNTlrdUmTzrDgektczlKNRRhy5X5AAOnx5S09ydFYWWNSfcEqDTTHgtNA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+{% endblock %}
+{% block content %}
+<div class="page-container ticket-page-container">
+    <div id="ticket">
+        <div class="ticket-header">
+            <img src="{{ ticket.poster_url }}" alt="{{ ticket.title }} Poster" class="ticket-poster-small">
+            <div class="ticket-header-info">
+                <h2>{{ ticket.title }}</h2>
+                <p>{{ ticket.theater_name }}</p>
+            </div>
+        </div>
+        <div class="ticket-body">
+            <div class="ticket-details">
+                <div class="detail-item"><span>Date & Time</span><p>{{ ticket.show_date.strftime('%a, %d %b %Y') }} at {{ ticket.show_time }}</p></div>
+                <div class="detail-item"><span>Seats</span><p class="seats-highlight">{{ ticket.seat_numbers }}</p></div>
+                <div class="detail-item"><span>Total Paid</span><p>₹{{ "%.2f"|format(ticket.price * ticket.seat_numbers.split(',')|length) }}</p></div>
+                <div class="detail-item"><span>Booking ID</span><p>#{{ "%08d"|format(ticket.id) }}</p></div>
+            </div>
+            <div class="ticket-qr">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=BookingID-{{ticket.id}}&bgcolor=f0e9d2&color=2d2a4c&qzone=1" alt="QR Code">
+                <p>Scan at Entry</p>
+            </div>
+        </div>
+    </div>
+    <a href="{{ url_for('download_ticket', ticket_id=ticket.id) }}" class="btn btn-primary">Download Ticket</a>
+
+
+{% endblock %}
+{% block scripts %}
+<script>
+    // This script handles the download functionality
+    document.getElementById('download-ticket-btn').addEventListener('click', () => {
+        const { jsPDF } = window.jspdf;
+        const ticketElement = document.getElementById('ticket');
+        
+        html2canvas(ticketElement, { 
+            scale: 2, // Improves resolution
+            useCORS: true, // Important if poster is from another domain
+            backgroundColor: null 
+        }).then(canvas => {
+            const imgData = canvas.toDataURL('image/png');
+            // A4 size in points: 595.28 x 841.89. We'll make a landscape ticket.
+            const pdf = new jsPDF({ orientation: 'landscape', unit: 'px', format: [canvas.width, canvas.height] });
+            pdf.addImage(imgData, 'PNG', 0, 0, canvas.width, canvas.height);
+            pdf.save("MovieFlix-Ticket-{{ticket.id}}.pdf");
+        });
+    });
+</script>
+{% endblock %}

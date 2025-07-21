@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Manage {{ movie.title }}{% endblock %}
+{% block content %}
+<div class="page-container admin-container">
+    <div class="admin-header">
+        <h2>Manage Movie: <em>{{ movie.title }}</em></h2>
+        <a href="{{ url_for('admin_dashboard') }}" class="back-link">← Back to Dashboard</a>
+    </div>
+
+    <div class="admin-form-container">
+        <h3>Add a New Showtime</h3>
+        <form action="{{ url_for('add_showtime') }}" method="POST">
+            <input type="hidden" name="movie_id" value="{{ movie.id }}">
+            <div class="form-grid">
+                <input type="text" name="theater_name" placeholder="Theater Name" required>
+                <input type="date" name="show_date" required>
+                <input type="time" name="show_time" required>
+                <input type="number" step="0.01" name="price" placeholder="Price (e.g., 150.00)" required>
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="action-btn">Add Showtime</button>
+            </div>
+        </form>
+    </div>
+
+    <h3>Existing Showtimes for {{ movie.title }}</h3>
+    <div class="movie-list-admin">
+        <table>
+            <thead>
+                <tr>
+                    <th>Theater</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for show in showtimes %}
+                <tr>
+                    <td>{{ show.theater_name }}</td>
+                    <td>{{ show.show_date.strftime('%d %b %Y') }}</td>
+                    <td>{{ show.show_time.strftime('%I:%M %p') }}</td>
+                    <td>₹{{ "%.2f"|format(show.price) }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="4">No showtimes have been added for this movie yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

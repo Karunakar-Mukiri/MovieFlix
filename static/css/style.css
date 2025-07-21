@@ -1,0 +1,198 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+    --color-bg: #1a1a2e; /* Dark Navy Blue */
+    --color-bg-light: #16213e; /* Lighter Navy */
+    --color-bg-card: #0f3460; /* Deep Blue for cards */
+    --color-primary-text: #e94560; /* Bright Red/Pink */
+    --color-text: #dcdcdc; /* Light Gray for text */
+    --color-text-muted: #a4a4a4; /* Muted Gray */
+    --font-primary: 'Poppins', sans-serif;
+    --gradient-main: linear-gradient(90deg, #e94560 0%, #ff8c42 100%);
+    --shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: var(--font-primary);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    line-height: 1.6;
+}
+
+h1, h2, h3, h4 { font-weight: 600; color: #fff; }
+a { color: var(--color-primary-text); text-decoration: none; transition: color 0.3s ease; }
+a:hover { color: #ff8c42; }
+
+header {
+    background-color: var(--color-bg-light);
+    padding: 1rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--color-bg-card);
+}
+header .logo h1 {
+    font-weight: 700;
+    background-image: var(--gradient-main);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.action-btn {
+    padding: 10px 20px;
+    background-image: var(--gradient-main);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(233, 69, 96, 0.4);
+}
+.action-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(255, 140, 66, 0.5); }
+.action-btn:disabled { background: var(--color-text-muted); box-shadow: none; cursor: not-allowed; transform: none;}
+
+/* Login Page */
+.login-container { max-width: 800px; margin: 4rem auto; text-align: center; }
+.role-options { display: flex; gap: 2rem; margin-top: 2rem; }
+.role-card {
+    flex: 1;
+    background: var(--color-bg-light);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 2px solid transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+.role-card:hover { transform: translateY(-10px); border-image: var(--gradient-main) 1; }
+.role-icon { font-size: 3rem; }
+.form-wrapper { max-width: 400px; margin: 0 auto; text-align: left; position: relative; }
+.back-btn { background: none; border: none; color: var(--color-text-muted); cursor: pointer; font-size: 1rem; margin-bottom: 1rem;}
+.auth-form { display: flex; flex-direction: column; }
+.auth-form input {
+    background: var(--color-bg);
+    border: 1px solid var(--color-bg-card);
+    color: var(--color-text);
+    padding: 12px;
+    margin-bottom: 1rem;
+    border-radius: 8px;
+    font-family: var(--font-primary);
+}
+.auth-form input:focus { outline: none; border-color: var(--color-primary-text); }
+.auth-form button { margin-top: 1rem; }
+#toggle-link-p { text-align: center; margin-top: 1rem; }
+#message-area { text-align: center; margin-top: 1rem; font-weight: 500; }
+
+/* Home & Movie Gallery */
+.page-container { max-width: 1400px; margin: 2rem auto; padding: 0 2rem; }
+.movie-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 2rem; }
+.movie-card { position: relative; border-radius: 12px; overflow: hidden; box-shadow: var(--shadow); }
+.movie-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.movie-card a { display: block; }
+.movie-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(15, 52, 96, 0.95), transparent);
+    padding: 3rem 1.5rem 1.5rem;
+    color: #fff;
+    transform: translateY(60%);
+    transition: transform 0.4s ease-in-out;
+}
+.movie-card:hover .movie-overlay { transform: translateY(0); }
+.movie-card:hover img { transform: scale(1.1); }
+.movie-overlay h3 { font-size: 1.2rem; }
+.movie-overlay p { color: #f0f0f0; font-size: 0.9rem; margin-bottom: 1rem; }
+.book-tickets-btn { text-align: center; font-weight: 600; padding: 10px; border-radius: 8px; background: var(--gradient-main); }
+
+/* Booking Page */
+.booking-page-container { display: flex; gap: 2.5rem; align-items: flex-start; }
+.selection-column { flex: 1; min-width: 350px; }
+.seating-column { flex: 1.5; background: var(--color-bg-light); padding: 2rem; border-radius: 12px; position: sticky; top: 2rem; }
+.movie-details-booking { display: flex; gap: 1.5rem; margin-bottom: 2rem; background: var(--color-bg-light); padding: 1rem; border-radius: 12px;}
+.movie-details-booking img { width: 100px; border-radius: 8px; }
+.booking-steps .step { background: var(--color-bg-light); padding: 1.5rem; border-radius: 12px; margin-bottom: 1.5rem; }
+.step h3, .seating-column h3 { border-bottom: 2px solid; border-image: var(--gradient-main) 1; padding-bottom: 0.5rem; display: inline-block; }
+.calendar-container { margin-top: 1rem; }
+.calendar-header { display: flex; justify-content: space-between; align-items: center; }
+.calendar-header button { background: none; border: none; color: var(--color-text); font-size: 1.5rem; cursor: pointer; }
+.calendar-body { margin-top: 1rem; }
+.calendar-weekdays, .calendar-dates { display: grid; grid-template-columns: repeat(7, 1fr); text-align: center; }
+.calendar-weekdays div { font-weight: bold; color: var(--color-text-muted); font-size: 0.8rem; }
+.calendar-dates div { padding: 8px 5px; cursor: pointer; border-radius: 50%; transition: all 0.2s; }
+.calendar-dates div:not(.other-month):hover { background-color: var(--color-bg-card); }
+.calendar-dates div.today { font-weight: bold; border: 1px solid var(--color-primary-text); }
+.calendar-dates div.selected { background-image: var(--gradient-main); color: white; font-weight: bold; }
+#showtimes-list .theater-group { margin-top: 1rem; }
+#showtimes-list .times-group { display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.time-slot { background: var(--color-bg); padding: 8px 12px; border-radius: 6px; cursor: pointer; transition: all 0.2s; }
+.time-slot.selected { background-image: var(--gradient-main); color: white; font-weight: 600; }
+.screen { text-align: center; margin-bottom: 2rem; color: var(--color-text-muted); letter-spacing: 0.3em; border-bottom: 2px solid var(--color-text-muted); padding-bottom: 5px; }
+.seat-grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 8px; margin-bottom: 1rem; }
+.seat { width: 28px; height: 24px; background: var(--color-bg-card); border-top-left-radius: 6px; border-top-right-radius: 6px; cursor: pointer; transition: all 0.2s; }
+.seat:hover:not(.occupied) { transform: scale(1.2); background: #ff8c42; }
+.seat.selected { background-image: var(--gradient-main); transform: scale(1.1); }
+.seat.occupied { background: #555; cursor: not-allowed; }
+.booking-summary { margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--color-bg-card); }
+
+/* Ticket Page */
+.ticket-page-container { display: flex; flex-direction: column; align-items: center; }
+#ticket { background: var(--color-bg-light); max-width: 700px; border-radius: 15px; box-shadow: var(--shadow); }
+.ticket-header { background-image: var(--gradient-main); padding: 1.5rem; border-top-left-radius: 15px; border-top-right-radius: 15px; text-align: center; }
+.ticket-body { display: flex; padding: 2rem; }
+.ticket-details { flex-grow: 1; }
+.detail-item { margin-bottom: 1rem; }
+.detail-item span { font-size: 0.8rem; color: var(--color-text-muted); }
+.detail-item p { margin-top: 2px; font-weight: 500; font-size: 1.1rem; }
+.seats-highlight { color: var(--color-primary-text); font-weight: bold; font-size: 1.2rem !important; }
+.ticket-qr { text-align: center; padding-left: 2rem; border-left: 1px dashed var(--color-bg-card); }
+.ticket-qr img { border-radius: 8px; }
+#download-ticket-btn { margin-top: 2rem; }
+
+/* Admin Dashboard */
+.admin-container { background: var(--color-bg-light); padding: 2rem; border-radius: 12px; }
+.admin-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; }
+.admin-form-container { background: var(--color-bg); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; }
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+.form-grid textarea { grid-column: 1 / -1; }
+.admin-form-container input, .admin-form-container textarea { width: 100%; background: var(--color-bg-light); border: 1px solid var(--color-bg-card); color: var(--color-text); padding: 10px; border-radius: 6px; }
+.form-actions { display: flex; justify-content: flex-end; gap: 1rem; margin-top: 1rem; }
+.cancel-btn { background: var(--color-text-muted); }
+table { width: 100%; border-collapse: collapse; }
+th, td { padding: 12px 15px; text-align: left; border-bottom: 1px solid var(--color-bg-card); }
+th { color: var(--color-text-muted); }
+.admin-poster { width: 50px; border-radius: 4px; }
+.action-cell { display: flex; gap: 0.5rem; align-items: center; }
+.manage-btn, .delete-btn { font-size: 0.9rem; padding: 6px 12px; border-radius: 6px; cursor: pointer; border: none; }
+.manage-btn { background: var(--color-bg-card); color: #fff; }
+.delete-btn { background: var(--color-primary-text); color: #fff; }
+
+/* Modal for Payment */
+.modal-container { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.7); backdrop-filter: blur(5px); }
+.modal-content { background-color: var(--color-bg-light); margin: 15vh auto; padding: 2rem; border-radius: 12px; max-width: 400px; position: relative; }
+.payment-modal-content input { width: 100%; background: var(--color-bg); border: 1px solid var(--color-bg-card); color: var(--color-text); padding: 12px; margin-bottom: 1rem; border-radius: 8px; }
+.payment-modal-content button { width: 100%; }
+
+/* Append these styles to the bottom of style.css */
+
+.ticket-header {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.ticket-poster-small {
+    width: 100px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.ticket-header-info {
+    text-align: left;
+}
