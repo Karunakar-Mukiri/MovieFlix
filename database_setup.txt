@@ -1,0 +1,65 @@
+#create a database similar to the following in mysql and start your server.
+
+CREATE DATABASE movie_db3;
+USE movie_db3;
+
+-- Users table with a 'role' column
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) UNIQUE NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password_hash VARCHAR(255) NOT NULL,
+    role ENUM('user', 'admin') NOT NULL DEFAULT 'user',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+select * from users;
+
+-- Pre-insert the Admin user
+-- The password is 'manager'
+INSERT INTO users (username, email, password_hash, role) VALUES
+('Admin Manager', 'manager@admin.com', 'scrypt:32768:8:1$YfXCnAJ2vGflmC5x$9d91544e450b07e7381b139cc903cd020610344b584988785cfc296720f4f0c6e8ab5683457574b29c5132c1c696e54f9a74e50a9762024b055d235f37064d4d', 'admin');
+
+update users set password_hash = 'scrypt:32768:8:1$D7dEtdPsMUrEbkBN$de16f5f4624e1413d126c0b799128cf1d00e2886b3ea79e9f524142cfcc42345fff0416731d90680cb73a3bc157db9df4e6e6cbfe709f25abc68fd7c54b4bd0d' where email = 'manager@admin.com';
+
+-- Movies, Showtimes, and Bookings tables
+CREATE TABLE movies (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(100) NOT NULL,
+    plot TEXT,
+    rating DECIMAL(3, 1),
+    duration_minutes INT,
+    poster_url VARCHAR(255)
+);
+
+CREATE TABLE showtimes (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    movie_id INT,
+    theater_name VARCHAR(100),
+    show_date DATE NOT NULL,
+    show_time TIME NOT NULL,
+    price DECIMAL(5, 2),
+    FOREIGN KEY (movie_id) REFERENCES movies(id) ON DELETE CASCADE
+);
+
+CREATE TABLE bookings (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    showtime_id INT,
+    seat_numbers VARCHAR(100),
+    booking_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+    FOREIGN KEY (showtime_id) REFERENCES showtimes(id) ON DELETE CASCADE
+);
+
+-- Insert sample movies (you can add more via the admin panel)
+INSERT INTO movies (title, plot, rating, duration_minutes, poster_url) VALUES
+('Inception', 'A thief who steals corporate secrets through the use of dream-sharing technology is given the inverse task of planting an idea into the mind of a C.E.O.', 8.8, 148, 'https://m.media-amazon.com/images/I/912AErFSBHL._AC_SL1500_.jpg'),
+('Interstellar', 'A team of explorers travel through a wormhole in space in an attempt to ensure humanity''s survival.', 8.6, 169, 'https://m.media-amazon.com/images/I/A1JVqNMI7UL._AC_SL1500_.jpg'),
+('Dune: Part Two', 'Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family.', 8.7, 166, 'https://m.media-amazon.com/images/I/71e3s3toIEL._AC_SL1500_.jpg');
+
+-- Insert sample showtimes (you can add more via the admin panel)
+INSERT INTO showtimes (movie_id, theater_name, show_date, show_time, price) VALUES
+(1, 'Cineplex Grand', CURDATE(), '18:00:00', 150.00),
+(1, 'Cineplex Grand', CURDATE(), '21:00:00', 160.00),
+(2, 'IMAX Victoria', CURDATE() + INTERVAL 1 DAY, '19:00:00', 200.00);
